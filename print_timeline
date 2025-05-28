@@ -1,0 +1,12 @@
+FILE *dot = fopen("timeline.dot", "w");
+fprintf(dot, "digraph Timeline {\n");
+for (int i = 0; i < event_count; ++i) {
+    fprintf(dot, "  e%d [label=\"PID %d\\nSIG %d\\n%ld.%06ld\"];\n",
+            i, events[i].pid, events[i].signal_num,
+            events[i].timestamp.tv_sec, events[i].timestamp.tv_usec);
+    if (i > 0) {
+        fprintf(dot, "  e%d -> e%d;\n", i - 1, i);
+    }
+}
+fprintf(dot, "}\n");
+fclose(dot);
